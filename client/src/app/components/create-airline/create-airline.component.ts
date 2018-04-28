@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CrudServiceService } from '../../services/crud-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-airline',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateAirlineComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: CrudServiceService, private router: Router) { }
 
   ngOnInit() {
   }
-
+  airlineCreation(event: any) {
+    console.log(event);
+    this.service.createAirline(event).subscribe(res => {console.log(res); /*this.router.navigateByUrl("/dashboard");*/}, err => {console.log(err)});
+  }
 }
