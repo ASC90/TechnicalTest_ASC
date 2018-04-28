@@ -12,6 +12,17 @@ app.use(cors({
     methods: ["POST"]
 }));
 
+app.post("/create-airline", function (req, res){
+    console.log(req.body);
+    let obj = req.body;
+    dbo.collection("Airlines").insertOne(obj, function(err, pres) {
+        if (err) pres.send({ 'error': err });
+        else {
+            res.status(200).send({messages: pres});
+        }
+      });
+});
+
 // RUN Mongo DB
 MongoClient.connect("mongodb://localhost:27017/", (err, client) => {    //mongo OK
     if (!err) console.log('mongo connected');
