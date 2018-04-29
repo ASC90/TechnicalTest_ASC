@@ -13,14 +13,14 @@ app.use(express.urlencoded({ limit: '5mb' }));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(cors({
-    methods: ["POST"]
+    methods: ["POST", "PUT", "DELETE"]
 }));
 
 // Create airline
 app.post("/create-airline", function (req, res) {
     console.log(req.body.form);
     let obj = req.body.form;
-    fs.writeFile('../client/src/assets/img/' + req.body.img.filename, req.body.img.value, 'base64',function (err) {
+    fs.writeFile('../client/src/assets/img/' + req.body.img.filename, req.body.img.value, 'base64', function (err) {
         if (err) throw err;
         console.log('ImagSaved!!');
         obj.logo = 'assets/img/' + req.body.img.filename;
@@ -34,11 +34,35 @@ app.post("/create-airline", function (req, res) {
 });
 
 // Read airlines
-app.get("/airlines", function (req, res){
-    dbo.collection("Airlines").find({}).toArray(function(err, pres){
+app.get("/airlines", function (req, res) {
+    dbo.collection("Airlines").find({}).toArray(function (err, pres) {
         console.log(pres);
         if (err) { res.send({ 'error': err }); throw err; }
         else res.status(200).send(pres);
+    });
+});
+
+// Read single airline
+app.get("/airline", function (req, res) {
+    let _id = new mongo.ObjectId(req.query.id);
+    let query = { _id: _id };
+    dbo.collection("Airlines").find(query).toArray(function (err, pres) {
+        console.log(pres);
+        if (err) { res.send({ 'error': err }); throw err; }
+        else res.status(200).send(pres[0]);
+    });
+});
+
+// Update airline
+app.put("/update-single", function (req, res) {
+    let _id = new mongo.ObjectId(req.body._id);
+    let query = { _id: _id };
+    let obj = req.body;
+    obj._id = _id;
+    console.log(req);
+    dbo.collection("Airlines").update(query, req.body, function (err, result) {
+        if(err) throw err;
+        res.status(200).send(result);
     });
 });
 

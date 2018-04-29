@@ -20,4 +20,16 @@ export class CrudServiceService {
   getAirlines(): Observable<any> {
     return this.http.get(environment.url + "/airlines", this.httpOptions);
   }
+
+  getAnAirline(id): Observable<any> {
+    let params = new HttpParams()
+      .set('id', id);
+    return this.http.get(environment.url + "/airline", {headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'my-auth-token' }),params});
+  }
+
+  updateAnAirline(obj: any): Observable<any> {
+    let send = Object.assign(obj.form, {_id: obj.id});
+    console.log(send);
+    return this.http.put(environment.url + "/update-single", send, this.httpOptions);
+  }
 }

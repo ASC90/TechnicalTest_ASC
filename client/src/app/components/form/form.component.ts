@@ -1,5 +1,7 @@
-import { Component, OnInit, Output, EventEmitter, ViewContainerRef, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewContainerRef, ElementRef, ViewChild, Input } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { CrudServiceService } from '../../services/crud-service.service';
+import { Airline } from '../../Models/airline';
 declare var $: any;
 @Component({
   selector: 'app-form',
@@ -8,6 +10,8 @@ declare var $: any;
 })
 export class FormComponent implements OnInit {
   @Output() formContent = new EventEmitter<any>();
+  @Input() id: string;
+  updateableObject: Airline;
   form: FormGroup;
   colors = [
     { value: "#f44336", color: "red" },
@@ -50,45 +54,54 @@ export class FormComponent implements OnInit {
   ];
   submitValid = false;
   fileToUpload = null;
-  constructor(private fb: FormBuilder, private vcr: ViewContainerRef) { }
+  constructor(private fb: FormBuilder, private vcr: ViewContainerRef, private service: CrudServiceService) { }
   ngOnInit() {
-    this.createForm();
+    if (this.id != null) {
+      this.service.getAnAirline(this.id).subscribe(res => {
+        console.log(res);
+        this.updateableObject = res;
+        this.createForm();
+      });
+    } else {
+      this.createForm();
+    }
 
   }
   createForm() {
     this.form = this.fb.group({
-      name: new FormControl(null),
-      logo: new FormControl(null),
-      primaryColor: new FormControl(null),
-      secondaryColor: new FormControl(null),
-      checkIn: false,
-      seats: false,
-      bags: false
+      name: new FormControl(this.updateableObject ? this.updateableObject.name : null),
+      logo: new FormControl(this.updateableObject ? this.updateableObject.logo : null),
+      primaryColor: new FormControl(this.updateableObject ? this.updateableObject.primaryColor : null),
+      secondaryColor: new FormControl(this.updateableObject ? this.updateableObject.secondaryColor : null),
+      checkIn: new FormControl(this.updateableObject ? this.updateableObject.checkIn : false),
+      seats: new FormControl(this.updateableObject ? this.updateableObject.seats : false),
+      bags: new FormControl(this.updateableObject ? this.updateableObject.bags : false)
     });
+    setTimeout(() => {
+      this.removeDiv(true);
+    }, 100);
   }
   onSubmit() {
-    this.formContent.emit({ form: this.form.value, img: this.fileToUpload });
+    this.formContent.emit({ form: this.form.value, img: this.fileToUpload, id: this.id });
     this.submitValid = true;
   }
-  removeDiv() {
+  removeDiv(firstTime?: boolean) {
     // Cosa chunga
-    console.log($("input.select-dropdown")[0].value);
     let str: string = $("input.select-dropdown")[0].value;
     str = str.trim();
-    str.substr(0, str.indexOf(' '));
-    /*for (let i = 0; i < this.colors.length; i++) {
-      if (str.includes(this.colors[i].color)){
-        str = this.colors[i].color;
-      }
-    }*/
+    if (firstTime) {
+      str = str.substr(0, str.indexOf(' '));
+    } else {
+      str.substr(0, str.indexOf(' '));
+    }
+    
     let str2: string = $("input.select-dropdown")[1].value;
     str2 = str2.trim();
-    str2.substr(0, str2.indexOf(' '));
-    /*for (let i = 0; i < this.colors.length; i++) {
-      if (str2.includes(this.colors[i].color)){
-        str2 = this.colors[i].color;
-      }
-    }*/
+    if (firstTime) {
+      str2 = str2.substr(0, str2.indexOf(' '));
+    } else {
+      str2.substr(0, str2.indexOf(' '));
+    }
     setTimeout(() => {
       $("input.select-dropdown")[0].value = str;
       $("input.select-dropdown")[1].value = str2;
@@ -97,7 +110,7 @@ export class FormComponent implements OnInit {
   }
   handleFileInput(event) {
     let reader = new FileReader();
-    if(event) {
+    if (event) {
       let file = event.item(0);
       reader.readAsDataURL(file);
       reader.onload = () => {

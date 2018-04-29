@@ -1,12 +1,13 @@
 <div class="container">
-  <H1 class="center-align red-text">Read airlines</H1>
+  <H1 class="center-align green-text">Update airlines</H1>
 </div>
+<app-form *ngIf="id" [id]="id" (formContent)="updateAiline($event)"></app-form>
 <div class="container" *ngIf="airlines">
   <div class="center-align grey-text" *ngIf="airlines.length < 1">
     <h1>No airlines found...</h1>
   </div>
   <div *ngIf="airlines" class="row">
-    <div *ngFor="let airline of airlines">
+    <div *ngFor="let airline of airlines; index as i">
       <div class="card pdg-6 col s12 m6 l4 xl3">
         <div class="card-image waves-effect waves-block waves-light">
           <img class="activator" [src]="airline.logo">
@@ -15,6 +16,9 @@
           <span class="card-title activator grey-text text-darken-4">{{airline.name}}
             <i class="material-icons right">more_vert</i>
           </span>
+          <p>
+            <a (click)="updateID(airline)">Update this</a>
+          </p>
         </div>
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">
