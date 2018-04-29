@@ -23,13 +23,22 @@ app.post("/create-airline", function (req, res) {
     fs.writeFile('../client/src/assets/img/' + req.body.img.filename, req.body.img.value, 'base64',function (err) {
         if (err) throw err;
         console.log('ImagSaved!!');
-        obj.logo = '../client/src/assets/img/' + req.body.img.filename;
-        dbo.collection("Airlines").insertOne(obj, function (err, pres) {
-            if (err) { res.send({ 'error': err }); throw err; }
+        obj.logo = 'assets/img/' + req.body.img.filename;
+        dbo.collection("Airlines").insertOne(obj, function (perr, pres) {
+            if (perr) { res.send({ 'error': perr }); throw perr; }
             else {
                 res.status(200).send({ messages: pres });
             }
         });
+    });
+});
+
+// Read airlines
+app.get("/airlines", function (req, res){
+    dbo.collection("Airlines").find({}).toArray(function(err, pres){
+        console.log(pres);
+        if (err) { res.send({ 'error': err }); throw err; }
+        else res.status(200).send(pres);
     });
 });
 

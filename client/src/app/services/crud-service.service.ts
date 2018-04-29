@@ -13,10 +13,11 @@ export class CrudServiceService {
   constructor(private http: HttpClient) { }
 
   createAirline(obj: any): Observable<any> {
-    //let dataFile = new FormData(obj.img);
-    //dataFile.append('avatar', obj.img, obj.img.name);
     console.log(obj);
-    //const content = { data: obj.form, img: obj.img };
     return this.http.post(environment.url + "/create-airline", obj, this.httpOptions);
+  }
+
+  getAirlines(): Observable<any> {
+    return this.http.get(environment.url + "/airlines", this.httpOptions);
   }
 }

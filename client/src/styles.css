@@ -9,6 +9,12 @@
     margin-left: auto;
     border: 1px solid black;
 }
-input.select-dropdown:not(.color) {
-
+.flx {
+    display: flex;
+}
+.mrg-6 {
+    margin: 6px;
+}
+.pdg-6 {
+    padding: 6px;
 }

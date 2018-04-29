@@ -12,10 +12,12 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CreateAirlineComponent } from './components/create-airline/create-airline.component';
 import { FormComponent } from './components/form/form.component';
+import { ReadAirlinesComponent } from './components/read-airlines/read-airlines.component';
 
 const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'create-airline', component: CreateAirlineComponent },
+  { path: 'read-airline', component: ReadAirlinesComponent },
   {
     path: '',
     redirectTo: '/dashboard',
@@ -29,7 +31,8 @@ const appRoutes: Routes = [
     NavbarComponent,
     DashboardComponent,
     CreateAirlineComponent,
-    FormComponent
+    FormComponent,
+    ReadAirlinesComponent
   ],
   imports: [
     BrowserModule,

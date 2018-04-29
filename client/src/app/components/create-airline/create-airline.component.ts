@@ -15,6 +15,6 @@ export class CreateAirlineComponent implements OnInit {
   }
   airlineCreation(event: any) {
     console.log(event);
-    this.service.createAirline(event).subscribe(res => {console.log(res); /*this.router.navigateByUrl("/dashboard");*/}, err => {console.log(err)});
+    this.service.createAirline(event).subscribe(res => {console.log(res); this.router.navigateByUrl("/dashboard");}, err => {console.log(err)});
   }
 }
