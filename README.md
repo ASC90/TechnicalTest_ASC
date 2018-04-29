@@ -19,7 +19,7 @@ mongod --dbpath <path to prevous tirectory*> --nojournal, now you have connected
 
 2- In the same directory execute npm start
 
-Warning: Be sure you have installed node.js 
+Warning: Be sure you have installed node.js https://nodejs.org/es/download/
 
 - How to run client
 
