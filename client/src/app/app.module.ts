@@ -14,13 +14,14 @@ import { CreateAirlineComponent } from './components/create-airline/create-airli
 import { FormComponent } from './components/form/form.component';
 import { ReadAirlinesComponent } from './components/read-airlines/read-airlines.component';
 import { UpdateAirlinesComponent } from './components/update-airlines/update-airlines.component';
-import { DeleteAirlinesComponent } from './delete-airlines/delete-airlines.component';
+import { DeleteAirlinesComponent } from './components/delete-airlines/delete-airlines.component';
 
 const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'create-airline', component: CreateAirlineComponent },
   { path: 'read-airline', component: ReadAirlinesComponent },
   { path: 'update-airlines', component: UpdateAirlinesComponent },
+  { path: 'delete-airlines', component: DeleteAirlinesComponent },
   {
     path: '',
     redirectTo: '/dashboard',

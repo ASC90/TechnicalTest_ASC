@@ -61,8 +61,22 @@ app.put("/update-single", function (req, res) {
     obj._id = _id;
     console.log(req);
     dbo.collection("Airlines").update(query, req.body, function (err, result) {
-        if(err) throw err;
+        if (err) throw err;
         res.status(200).send(result);
+    });
+});
+
+// Delete airline
+app.delete("/del-airline", function (req, res) {
+    let _id = new mongo.ObjectId(req.query.id);
+    let query = { _id: _id };
+    dbo.collection("Airlines").deleteOne(query, function (err, obj) {
+        if (err) throw err;
+        res.status(200).send(obj);
+        fs.unlink('../client/src/' + req.query.logo, function (err) {
+            if (err) throw err;
+            console.log('File deleted!');
+        });
     });
 });
 

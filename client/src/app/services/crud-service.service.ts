@@ -32,4 +32,11 @@ export class CrudServiceService {
     console.log(send);
     return this.http.put(environment.url + "/update-single", send, this.httpOptions);
   }
+
+  deleteAirline(obj: Airline): Observable<any> {
+    let params = new HttpParams()
+      .set('id', obj._id)
+      .set('logo', obj.logo);
+    return this.http.delete(environment.url + "/del-airline", {headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'my-auth-token' }),params});
+  }
 }

@@ -1,3 +1,46 @@
-<p>
-  delete-airlines works!
-</p>
+<div class="container">
+  <H1 class="center-align blue-text">Delete airlines</H1>
+</div>
+<div class="container" *ngIf="airlines">
+  <div class="center-align grey-text" *ngIf="airlines.length < 1">
+    <h1>No airlines found...</h1>
+  </div>
+  <div *ngIf="airlines" class="row">
+    <div *ngFor="let airline of airlines; index as i">
+      <div class="card pdg-6 col s12 m6 l4 xl3">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" [src]="airline.logo">
+        </div>
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">{{airline.name}}
+            <i class="material-icons right">more_vert</i>
+          </span>
+          <p>
+            <a (click)="deleteAirline(airline)">Delete this</a>
+          </p>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">
+            <i class="material-icons right">close</i>{{airline.name}}</span>
+          <div class="flx mrg-6">
+            <span>Primary color</span>
+            <div class="color" [style.background-color]="airline.primaryColor"></div>
+          </div>
+          <div class="flx mrg-6">
+            <span>Secondary color</span>
+            <div class="color" [style.background-color]="airline.secondaryColor"></div>
+          </div>
+          <div class="mrg-6">
+            Check-in: {{airline.checkIn}}
+          </div>
+          <div class="mrg-6">
+            Seats: {{airline.seats}}
+          </div>
+          <div class="mrg-6">
+            Bags: {{airline.bags}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

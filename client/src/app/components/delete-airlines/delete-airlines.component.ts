@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CrudServiceService } from '../../services/crud-service.service';
+import { Airline } from '../../Models/airline';
 
 @Component({
   selector: 'app-delete-airlines',
@@ -6,10 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./delete-airlines.component.css']
 })
 export class DeleteAirlinesComponent implements OnInit {
-
-  constructor() { }
+  airlines: Airline[];
+  constructor(private service: CrudServiceService) { }
 
   ngOnInit() {
+    this.service.getAirlines().subscribe(res => {
+      this.airlines = res;
+      console.log(this.airlines);
+    }, err => {
+      console.log(err);
+    });
   }
-
+  deleteAirline(event) {
+    console.log(event);
+    this.service.deleteAirline(event).subscribe(res => console.log(res), err => console.log(err));
+  }
 }
