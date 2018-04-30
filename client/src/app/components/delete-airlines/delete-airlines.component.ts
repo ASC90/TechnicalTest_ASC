@@ -19,8 +19,11 @@ export class DeleteAirlinesComponent implements OnInit {
       console.log(err);
     });
   }
-  deleteAirline(event) {
+  deleteAirline(event, index?) {
     console.log(event);
-    this.service.deleteAirline(event).subscribe(res => console.log(res), err => console.log(err));
+    this.service.deleteAirline(event).subscribe(res => { 
+      console.log(res);
+      this.airlines.splice(index, 1);
+    }, err => console.log(err));
   }
 }
