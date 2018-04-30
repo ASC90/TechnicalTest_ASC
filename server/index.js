@@ -16,6 +16,11 @@ app.use(cors({
     methods: ["POST", "PUT", "DELETE"]
 }));
 
+let dir = "../client/src/assets/img";
+if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+}
+
 // Create airline
 app.post("/create-airline", function (req, res) {
     console.log(req.body.form);
