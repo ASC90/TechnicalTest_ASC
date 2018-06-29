@@ -17,7 +17,7 @@ app.use(cors({
 }));
 
 let dir = "../client/src/assets/img";
-if (!fs.existsSync(dir)){
+if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
 }
 
